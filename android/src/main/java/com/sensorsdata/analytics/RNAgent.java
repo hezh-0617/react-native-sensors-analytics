@@ -80,6 +80,11 @@ public class RNAgent {
 
     static void trackViewScreen(String url, JSONObject properties, boolean isAuto) {
         try {
+            if (isAuto && (properties.optBoolean("SAIgnoreViewScreen", false)
+                    || !SensorsDataAPI.sharedInstance().isAutoTrackEnabled()
+                    || SensorsDataAPI.sharedInstance().isAutoTrackEventTypeIgnored(SensorsDataAPI.AutoTrackEventType.APP_VIEW_SCREEN))) {
+                return;
+            }
             String screenName = url;
             if (properties == null) {
                 properties = new JSONObject();
@@ -98,11 +103,7 @@ public class RNAgent {
                 properties.put("$title", title);
             }
             RNViewUtils.saveScreenAndTitle(screenName, title);
-            if (isAuto && (properties.optBoolean("SAIgnoreViewScreen", false)
-                    || !SensorsDataAPI.sharedInstance().isAutoTrackEnabled()
-                    || SensorsDataAPI.sharedInstance().isAutoTrackEventTypeIgnored(SensorsDataAPI.AutoTrackEventType.APP_VIEW_SCREEN))) {
-                return;
-            }
+            
             SensorsDataAPI.sharedInstance().trackViewScreen(url, RNPropertyManager.mergeProperty(properties, isAuto));
         } catch (Exception e) {
             SALog.printStackTrace(e);

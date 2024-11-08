@@ -186,17 +186,6 @@ NSString *const kSAEventElementContentProperty = @"$element_content";
         NSLog(@"[RNSensorsAnalytics] error: url {%@} is not String Class ！！！", url);
         return;
     }
-    NSString *screenName = properties[kSAEventScreenNameProperty] ?: url;
-    NSString *title = properties[kSAEventTitleProperty] ?: screenName;
-
-    NSMutableDictionary *pageProps = [NSMutableDictionary dictionary];
-    pageProps[kSAEventScreenNameProperty] = screenName;
-    pageProps[kSAEventTitleProperty] = title;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        UIView *rootView = [SAReactNativeRootViewManager.sharedInstance currentRootView];
-        rootView.sa_reactnative_screenProperties = [pageProps copy];
-    });
-
     // 忽略 React Native 触发的 $AppViewScreen 事件
     if (autoTrack && [properties[@"SAIgnoreViewScreen"] boolValue]) {
         return;
@@ -211,6 +200,17 @@ NSString *const kSAEventElementContentProperty = @"$element_content";
     if (autoTrack && [[SensorsAnalyticsSDK sharedInstance] isAutoTrackEventTypeIgnored:SensorsAnalyticsEventTypeAppViewScreen]) {
         return;
     }
+
+    NSString *screenName = properties[kSAEventScreenNameProperty] ?: url;
+    NSString *title = properties[kSAEventTitleProperty] ?: screenName;
+
+    NSMutableDictionary *pageProps = [NSMutableDictionary dictionary];
+    pageProps[kSAEventScreenNameProperty] = screenName;
+    pageProps[kSAEventTitleProperty] = title;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIView *rootView = [SAReactNativeRootViewManager.sharedInstance currentRootView];
+        rootView.sa_reactnative_screenProperties = [pageProps copy];
+    });
 
     NSMutableDictionary *eventProps = [NSMutableDictionary dictionary];
     [eventProps addEntriesFromDictionary:pageProps];

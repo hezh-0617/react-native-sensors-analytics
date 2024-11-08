@@ -35,6 +35,7 @@ import com.sensorsdata.analytics.android.sdk.SensorsDataAPI;
 import com.sensorsdata.analytics.property.RNPropertyManager;
 import com.sensorsdata.analytics.property.RNGlobalPropertyPlugin;
 import com.sensorsdata.analytics.utils.RNUtils;
+import com.sensorsdata.analytics.utils.RNViewUtils;
 import com.sensorsdata.analytics.utils.VersionUtils;
 
 import org.json.JSONObject;
@@ -1072,7 +1073,7 @@ public class RNSensorsAnalyticsModule extends ReactContextBaseJavaModule {
         }
     }
 
-    /**
+   /**
      * 获取最后一次页面浏览的属性并追踪事件
      *
      * @param eventName 事件名称
@@ -1083,14 +1084,16 @@ public class RNSensorsAnalyticsModule extends ReactContextBaseJavaModule {
         try {
             JSONObject mergedProperties = new JSONObject();
 
-            // 获取最后一次页面浏览属性
-            JSONObject lastScreenProperties = SensorsDataAPI.sharedInstance().getLastScreenTrackProperties();
-            if (lastScreenProperties != null) {
-                // 合并最后一次页面浏览属性
-                for (Iterator<String> it = lastScreenProperties.keys(); it.hasNext();) {
-                    String key = it.next();
-                    mergedProperties.put(key, lastScreenProperties.get(key));
-                }
+            // 从 RNViewUtils 获取页面信息
+            String title = RNViewUtils.getTitle();
+            String screenName = RNViewUtils.getScreenName();
+            
+            // 添加页面信息
+            if (title != null) {
+                mergedProperties.put("$title", title);
+            }
+            if (screenName != null) {
+                mergedProperties.put("$screen_name", screenName); 
             }
 
             // 合并用户传入的属性

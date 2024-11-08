@@ -1095,18 +1095,18 @@ RCT_EXPORT_METHOD(isNetworkRequestEnablePromise:(RCTPromiseResolveBlock)resolve 
 RCT_EXPORT_METHOD(trackWithLastScreenTrackProperties:(NSString *)event withProperties:(NSDictionary *)propertyDict) {
     @try {
         NSMutableDictionary *mergedProperties = [NSMutableDictionary dictionary];
-        
-        // 获取最后一次页面浏览属性
-        NSDictionary *lastScreenProperties = [[SensorsAnalyticsSDK sharedInstance] getLastScreenTrackProperties];
-        if (lastScreenProperties) {
-            [mergedProperties addEntriesFromDictionary:lastScreenProperties];
+
+        // 从 SAReactNativeManager 获取当前页面信息
+        NSDictionary *visualizeProperties = [[SAReactNativeManager sharedInstance] visualizeProperties];
+        if (visualizeProperties) {
+            [mergedProperties addEntriesFromDictionary:visualizeProperties];
         }
-        
+
         // 合并用户传入的属性
         if (propertyDict) {
             [mergedProperties addEntriesFromDictionary:propertyDict];
         }
-        
+
         // 调用track方法
         NSDictionary *properties = [SAReactNativeEventProperty eventProperties:mergedProperties];
         [[SensorsAnalyticsSDK sharedInstance] track:event withProperties:properties];
