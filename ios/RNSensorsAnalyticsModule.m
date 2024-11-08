@@ -1086,4 +1086,33 @@ RCT_EXPORT_METHOD(isNetworkRequestEnablePromise:(RCTPromiseResolveBlock)resolve 
 
 }
 
+/**
+ * 导出 trackWithLastScreenTrackProperties 方法给 RN 使用.
+ *
+ * @param event 事件名称
+ * @param propertyDict 事件属性
+ */
+RCT_EXPORT_METHOD(trackWithLastScreenTrackProperties:(NSString *)event withProperties:(NSDictionary *)propertyDict) {
+    @try {
+        NSMutableDictionary *mergedProperties = [NSMutableDictionary dictionary];
+        
+        // 获取最后一次页面浏览属性
+        NSDictionary *lastScreenProperties = [[SensorsAnalyticsSDK sharedInstance] getLastScreenTrackProperties];
+        if (lastScreenProperties) {
+            [mergedProperties addEntriesFromDictionary:lastScreenProperties];
+        }
+        
+        // 合并用户传入的属性
+        if (propertyDict) {
+            [mergedProperties addEntriesFromDictionary:propertyDict];
+        }
+        
+        // 调用track方法
+        NSDictionary *properties = [SAReactNativeEventProperty eventProperties:mergedProperties];
+        [[SensorsAnalyticsSDK sharedInstance] track:event withProperties:properties];
+    } @catch (NSException *exception) {
+        NSLog(@"[RNSensorsAnalytics] error:%@",exception);
+    }
+}
+
 @end

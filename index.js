@@ -566,6 +566,16 @@ function enableDataCollect(){
 }
 
 /************** Android only end *****************/
+
+/**
+ * 追踪事件,自动带上最后一次页面浏览的属性
+ */
+function trackWithLastScreenTrackProperties(event, properties) {
+  RNSensorsAnalyticsModule &&
+  RNSensorsAnalyticsModule.trackWithLastScreenTrackProperties &&
+  RNSensorsAnalyticsModule.trackWithLastScreenTrackProperties(event, properties);
+}
+
 export {SAAutoTrackType}
 
 export default {
@@ -617,4 +627,5 @@ export default {
   bind,
   unbind,
   sa: RNSensorsAnalyticsModule,
+  trackWithLastScreenTrackProperties,
 };

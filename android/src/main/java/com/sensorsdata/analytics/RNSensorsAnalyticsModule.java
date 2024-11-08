@@ -40,6 +40,7 @@ import com.sensorsdata.analytics.utils.VersionUtils;
 import org.json.JSONObject;
 
 import java.util.HashSet;
+import java.util.Iterator;
 
 
 /**
@@ -1068,6 +1069,44 @@ public class RNSensorsAnalyticsModule extends ReactContextBaseJavaModule {
             SALog.i(LOGTAG, "init success");
         } catch (Exception e) {
             SALog.i(LOGTAG, "SDK init failed:" + e.getMessage());
+        }
+    }
+
+    /**
+     * 获取最后一次页面浏览的属性并追踪事件
+     *
+     * @param eventName 事件名称
+     * @param properties 事件属性
+     */
+    @ReactMethod
+    public void trackWithLastScreenTrackProperties(String eventName, ReadableMap properties) {
+        try {
+            JSONObject mergedProperties = new JSONObject();
+
+            // 获取最后一次页面浏览属性
+            JSONObject lastScreenProperties = SensorsDataAPI.sharedInstance().getLastScreenTrackProperties();
+            if (lastScreenProperties != null) {
+                // 合并最后一次页面浏览属性
+                for (Iterator<String> it = lastScreenProperties.keys(); it.hasNext();) {
+                    String key = it.next();
+                    mergedProperties.put(key, lastScreenProperties.get(key));
+                }
+            }
+
+            // 合并用户传入的属性
+            if (properties != null) {
+                JSONObject userProperties = RNUtils.convertToJSONObject(properties);
+                for (Iterator<String> it = userProperties.keys(); it.hasNext();) {
+                    String key = it.next();
+                    mergedProperties.put(key, userProperties.get(key));
+                }
+            }
+
+            // 调用track方法
+            SensorsDataAPI.sharedInstance().track(eventName, RNPropertyManager.mergeProperty(mergedProperties));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e(LOGTAG, e.toString() + "");
         }
     }
 }

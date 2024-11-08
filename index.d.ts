@@ -379,3 +379,11 @@ export function isNetworkRequestEnablePromise(): Promise<boolean>;
 export function enableDataCollect(): void;
 
 /************** Android only end *****************/
+
+/**
+ * 追踪事件,自动带上最后一次页面浏览的属性($screen_name和$title)
+ *
+ * @param event 事件名称
+ * @param properties 事件属性
+ */
+export function trackWithLastScreenTrackProperties(event: string, properties?: PropertiesObjectType): void;
