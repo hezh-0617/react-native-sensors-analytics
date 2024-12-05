@@ -577,6 +577,24 @@ RCT_EXPORT_METHOD(getAnonymousIdPromise:(RCTPromiseResolveBlock)resolve reject:(
     }
 }
 
+
+
+/**
+ * 导出 getAnonymousIdAsync 方法给 RN 使用.
+ * @return
+ */
+RCT_EXPORT_SYNCHRONOUS_METHOD(getAnonymousIdAsync) {
+    @try {
+        NSMutableDictionary *result = [NSMutableDictionary dictionary];
+        [result setObject:[SensorsAnalyticsSDK sharedInstance].anonymousId forKey:@"anonymousId"];
+        return result;
+    } @catch (NSException *exception) {
+        NSLog(@"[RNSensorsAnalytics] error:%@",exception);
+        return nil;
+    }
+}
+
+
 /**
  * 导出 registerSuperProperties 方法给 RN 使用.
  *

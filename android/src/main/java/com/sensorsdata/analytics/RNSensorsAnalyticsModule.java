@@ -511,6 +511,23 @@ public class RNSensorsAnalyticsModule extends ReactContextBaseJavaModule {
         }
     }
 
+
+    /**
+     * 导出 getAnonymousIdAsync 方法给 RN 使用.
+     * @return
+     */
+    @ReactMethod
+    public WritableMap getAnonymousIdAsync() {
+        WritableMap map = Arguments.createMap();
+        try {
+            map.putString("anonymousId", SensorsDataAPI.sharedInstance().getAnonymousId());
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e(LOGTAG, e.toString() + "");
+        }
+        return map;
+    }
+
     /**
      * 导出 registerSuperProperties 方法给 RN 使用.
      *
@@ -1087,13 +1104,13 @@ public class RNSensorsAnalyticsModule extends ReactContextBaseJavaModule {
             // 从 RNViewUtils 获取页面信息
             String title = RNViewUtils.getTitle();
             String screenName = RNViewUtils.getScreenName();
-            
+
             // 添加页面信息
             if (title != null) {
                 mergedProperties.put("$title", title);
             }
             if (screenName != null) {
-                mergedProperties.put("$screen_name", screenName); 
+                mergedProperties.put("$screen_name", screenName);
             }
 
             // 合并用户传入的属性

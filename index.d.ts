@@ -143,6 +143,11 @@ export function getDistinctIdPromise(): Promise<string>;
 export function getAnonymousIdPromise(): Promise<string>;
 
 /**
+ * 获取匿名 ID
+ */
+export function getAnonymousIdAsync(): string;
+
+/**
  * 设置的公共属性
  *
  * @param properties 公共属性

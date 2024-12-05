@@ -192,6 +192,12 @@ async function getAnonymousIdPromise () {
   }
 }
 
+function getAnonymousIdAsync() {
+  if(RNSensorsAnalyticsModule && RNSensorsAnalyticsModule.getAnonymousIdAsync){
+    return RNSensorsAnalyticsModule.getAnonymousIdAsync().anonymousId;
+  }
+}
+
 /**
  * 设置的公共属性
  *
@@ -595,6 +601,7 @@ export default {
   trackViewScreen,
   getDistinctIdPromise,
   getAnonymousIdPromise,
+  getAnonymousIdAsync,
   registerSuperProperties,
   unregisterSuperProperty,
   clearSuperProperties,
