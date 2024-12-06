@@ -517,7 +517,7 @@ public class RNSensorsAnalyticsModule extends ReactContextBaseJavaModule {
      * 导出 getAnonymousIdAsync 方法给 RN 使用.
      * @return
      */
-    @ReactMethod
+    @ReactMethod(isBlockingSynchronousMethod = true)
     public WritableMap getAnonymousIdAsync() {
         WritableMap map = Arguments.createMap();
         try {
