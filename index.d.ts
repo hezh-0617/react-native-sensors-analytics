@@ -104,6 +104,14 @@ export function trackInstallation(eventName: string, properties?: PropertiesObje
 export function trackViewScreen(url: string, properties?: PropertiesObjectType): void;
 
 /**
+ * 用于在原生页面调用的RN组件中，保存 $AppViewScreen 事件，从而使点击事件带上页面浏览的属性
+ *
+ * @param url 页面 url
+ * @param properties 事件属性
+ */
+export function saveViewScreen(url: string, properties?: PropertiesObjectType): void;
+
+/**
  * 给一个数值类型的 Profile 增加一个数值. 只能对数值型属性进行操作，若该属性
  * 未设置，则添加属性并设置默认值为 0.
  *

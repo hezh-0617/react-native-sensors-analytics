@@ -223,6 +223,35 @@ RCT_EXPORT_METHOD(trackViewScreen:(NSString *)url withProperties:(NSDictionary *
         NSLog(@"[RNSensorsAnalytics] error:%@",exception);
     }
 }
+
+/**
+ * 导出 saveViewScreen 方法给 RN 使用.
+ *
+ * 用于保存 $AppViewScreen 事件.
+ *
+ * @param url        页面的 url  记录到 $url 字段中(如果不需要此属性，可以传 null ).
+ * @param properties 页面的属性.
+ *
+ * 注：为保证记录到的 $AppViewScreen 事件和 Auto Track 采集的一致，
+ *    需要传入 $title（页面的title） 、$screen_name （页面的名称，即 包名.类名）字段.
+ *
+ * RN 中使用示例：
+ *     <Button
+ *            title="Button"
+ *            onPress={()=>
+ *            RNSensorsAnalyticsModule.saveViewScreen(null,{"$title":"RN主页","$screen_name":"cn.sensorsdata.demo.RNHome"})}>
+ *     </Button>
+ *
+ *
+ */
+RCT_EXPORT_METHOD(saveViewScreen:(NSString *)url withProperties:(NSDictionary *)properties){
+    @try {
+        [[SAReactNativeManager sharedInstance] saveViewScreen:url properties:properties];
+    } @catch (NSException *exception) {
+        NSLog(@"[RNSensorsAnalytics] error:%@",exception);
+    }
+}
+
 /**
  * 导出 set 方法给 RN 使用.
  *

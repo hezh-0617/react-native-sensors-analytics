@@ -48,6 +48,26 @@ NSString *const kSAEventElementContentProperty = @"$element_content";
 
 @implementation SAReactNativeManager
 
+#pragma mark - AppViewScreen
+- (void)saveViewScreen:(nullable NSString *)url properties:(nullable NSDictionary *)properties {
+    if (url && ![url isKindOfClass:NSString.class]) {
+        NSLog(@"[RNSensorsAnalytics] error: url {%@} is not String Class ！！！", url);
+        return;
+    }
+
+    NSString *screenName = properties[kSAEventScreenNameProperty] ?: url;
+    NSString *title = properties[kSAEventTitleProperty] ?: screenName;
+
+    NSMutableDictionary *pageProps = [NSMutableDictionary dictionary];
+    pageProps[kSAEventScreenNameProperty] = screenName;
+    pageProps[kSAEventTitleProperty] = title;
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIView *rootView = [SAReactNativeRootViewManager.sharedInstance currentRootView];
+        rootView.sa_reactnative_screenProperties = [pageProps copy];
+    });
+}
+
 + (instancetype)sharedInstance {
     static SAReactNativeManager *manager;
     static dispatch_once_t onceToken;

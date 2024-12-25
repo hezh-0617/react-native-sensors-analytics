@@ -110,6 +110,32 @@ public class RNAgent {
         }
     }
 
+    static void saveViewScreen(String url, JSONObject properties) {
+        try {
+            String screenName = url;
+            if (properties == null) {
+                properties = new JSONObject();
+            }
+            if (properties.has("$screen_name")) {
+                screenName = properties.getString("$screen_name");
+            }
+            String title = screenName;
+            if (properties.has("$title")) {
+                title = properties.getString("$title");
+            }
+            if (screenName != null) {
+                properties.put("$screen_name", screenName);
+            }
+            if (title != null) {
+                properties.put("$title", title);
+            }
+            RNViewUtils.saveScreenAndTitle(screenName, title);
+            
+        } catch (Exception e) {
+            SALog.printStackTrace(e);
+        }
+    }
+
     static void trackViewClick(int viewId) {
         try {
             //关闭 AutoTrack
