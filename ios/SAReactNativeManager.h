@@ -83,6 +83,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)trackViewScreen:(nullable NSString *)url properties:(nullable NSDictionary *)properties autoTrack:(BOOL)autoTrack;
 
+
+- (void)saveViewScreen:(nullable NSString *)url properties:(nullable NSDictionary *)properties
+
 /// 设置 React Native 的动态公共属性
 /// @param properties 动态公共属性
 - (void)setDynamicSuperProperties:(NSDictionary *)properties;
