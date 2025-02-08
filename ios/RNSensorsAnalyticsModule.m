@@ -1162,4 +1162,26 @@ RCT_EXPORT_METHOD(trackWithLastScreenTrackProperties:(NSString *)event withPrope
     }
 }
 
+/**
+ * 获取最后一次页面浏览的属性
+ * 
+ * @return 包含页面标题和页面名称的字典
+ */
+RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(getLastScreenProps) {
+    @try {
+        NSMutableDictionary *result = [NSMutableDictionary dictionary];
+        
+        // 从 SAReactNativeManager 获取当前页面信息
+        NSDictionary *visualizeProperties = [[SAReactNativeManager sharedInstance] visualizeProperties];
+        if (visualizeProperties) {
+            [result addEntriesFromDictionary:visualizeProperties];
+        }
+        
+        return result;
+    } @catch (NSException *exception) {
+        NSLog(@"[RNSensorsAnalytics] error:%@",exception);
+        return @{};
+    }
+}
+
 @end

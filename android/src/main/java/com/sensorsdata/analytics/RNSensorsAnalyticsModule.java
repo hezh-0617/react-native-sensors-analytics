@@ -1158,4 +1158,14 @@ public class RNSensorsAnalyticsModule extends ReactContextBaseJavaModule {
             Log.e(LOGTAG, e.toString() + "");
         }
     }
+
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    public WritableMap getLastScreenProps() {
+        String title = RNViewUtils.getTitle();
+        String screenName = RNViewUtils.getScreenName();
+        WritableMap map = Arguments.createMap();
+        map.putString("$title", title);
+        map.putString("$screen_name", screenName);
+        return map;
+    }
 }

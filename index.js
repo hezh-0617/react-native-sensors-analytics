@@ -594,6 +594,10 @@ function trackWithLastScreenTrackProperties(event, properties) {
   RNSensorsAnalyticsModule.trackWithLastScreenTrackProperties(event, properties);
 }
 
+function getLastScreenProps(){
+  return RNSensorsAnalyticsModule?.getLastScreenProps()
+}
+
 export {SAAutoTrackType}
 
 export default {
@@ -648,4 +652,5 @@ export default {
   unbind,
   sa: RNSensorsAnalyticsModule,
   trackWithLastScreenTrackProperties,
+  getLastScreenProps,
 };

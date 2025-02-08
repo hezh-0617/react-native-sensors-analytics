@@ -8,7 +8,7 @@ declare type Config = {
   ios: {//iOS 端特有配置
     max_cache_size?: number //最大缓存条数，默认 10000
   },
-  global_properties?:PropertiesObjectType,// 全局属性
+  global_properties?: PropertiesObjectType,// 全局属性
   auto_track: SAAutoTrackType,// 全埋点开关，默认不开启
   javascript_bridge: boolean,//H5 打通开关，默认 false
   flush_interval: number,//数据上报间隔，默认 15*1000 毫秒
@@ -400,3 +400,5 @@ export function enableDataCollect(): void;
  * @param properties 事件属性
  */
 export function trackWithLastScreenTrackProperties(event: string, properties?: PropertiesObjectType): void;
+
+export function getLastScreenProps(): object
